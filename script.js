@@ -143,7 +143,7 @@ setInterval(() => {
   timeEl.textContent = time;
 
 if (time <= 0) {
-  saveScore(score);
+  //saveScore(score);
 
   const message = getMessage(score);
 
@@ -163,4 +163,4 @@ if (time <= 0) {
 // 시작
 setProverb();
 
-showRanking();
+
