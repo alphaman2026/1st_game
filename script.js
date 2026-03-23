@@ -43,6 +43,39 @@ function setProverb() {
   meaningEl.textContent = current.meaning;
 }
 
+function saveScore(newScore) {
+  let scores = JSON.parse(localStorage.getItem("scores")) || [];
+
+  scores.push(newScore);
+  scores.sort((a, b) => b - a); // 내림차순
+
+  scores = scores.slice(0, 5); // top 5
+
+  localStorage.setItem("scores", JSON.stringify(scores));
+}
+
+function showRanking() {
+  const list = document.getElementById("rankingList");
+  const scores = JSON.parse(localStorage.getItem("scores")) || [];
+
+  list.innerHTML = "";
+
+  scores.forEach((s, i) => {
+    const li = document.createElement("li");
+    li.textContent = `${i + 1}등 - ${s}점`;
+    list.appendChild(li);
+  });
+}
+
+function getMessage(score) {
+  if (score >= 10) return "🔥 완벽해요!! 프로 가수급입니다!!";
+  if (score >= 7) return "👏 잘했어요! 박수👏👏";
+  if (score >= 4) return "👍 괜찮아요! 점점 늘고 있어요!";
+  return "😊 처음이니까 괜찮아요! 다시 도전!";
+}
+
+
+
 // 입력 체크
 input.addEventListener("input", () => {
   if (current.text.startsWith(input.value)) {
@@ -68,11 +101,25 @@ setInterval(() => {
   time--;
   timeEl.textContent = time;
 
-  if (time <= 0) {
-    alert(`게임 종료! 점수: ${score}`);
-    location.reload();
-  }
+if (time <= 0) {
+  saveScore(score);
+
+  const message = getMessage(score);
+
+  document.body.innerHTML = `
+    <div style="text-align:center; margin-top:100px;">
+      <h1>🎤 게임 종료!</h1>
+      <h2>점수: ${score}</h2>
+      <p class="end-message">${message}</p>
+      <button onclick="location.reload()">다시하기</button>
+    </div>
+  `;
+
+  return;
+}
 }, 1000);
 
 // 시작
 setProverb();
+
+showRanking();
