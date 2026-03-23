@@ -133,7 +133,7 @@ function checkAnswer() {
       input.style.borderColor = "#ccc";
 
       setProverb();
-      time += 3;
+      //time += 3;
     }, 30);
   }
 }
