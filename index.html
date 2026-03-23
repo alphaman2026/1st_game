@@ -3,17 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <title>속담 타이핑 게임</title>
+
+  <!-- 고급 폰트 -->
+  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>속담 타이핑 게임 🧠</h1>
 
-  <p id="proverb">로딩중...</p>
+  <div class="game-box">
+    <h1>속담 타이핑 🎮</h1>
 
-  <input type="text" id="input" placeholder="속담을 입력하세요" autofocus />
+    <div class="card">
+      <p id="proverb"></p>
+      <p id="meaning" class="meaning"></p>
+    </div>
 
-  <p>점수: <span id="score">0</span></p>
-  <p>시간: <span id="time">15</span></p>
+    <input type="text" id="input" placeholder="속담을 입력하세요" autofocus />
+
+    <div class="info">
+      <span>점수: <b id="score">0</b></span>
+      <span>시간: <b id="time">15</b></span>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>
