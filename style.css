@@ -65,10 +65,10 @@ input {
 }
 
 /* 랭킹 */
-.ranking {
-  margin-top: 20px;
-  text-align: left;
-}
+//.ranking {
+//  margin-top: 20px;
+//  text-align: left;
+//}
 
 .ranking h3 {
   margin-bottom: 10px;
