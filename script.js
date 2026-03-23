@@ -79,7 +79,7 @@ function getMessage(score) {
 // 입력 체크
 let isProcessing = false;
 
-input.addEventListener("input", () => {
+input.addEventListener("keyup", () => {
   if (isProcessing) return;
 
   if (current.text.startsWith(input.value)) {
