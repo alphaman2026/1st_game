@@ -77,7 +77,11 @@ function getMessage(score) {
 
 
 // 입력 체크
+let isProcessing = false;
+
 input.addEventListener("input", () => {
+  if (isProcessing) return;
+
   if (current.text.startsWith(input.value)) {
     input.style.borderColor = "lime";
   } else {
@@ -85,17 +89,22 @@ input.addEventListener("input", () => {
   }
 
   if (input.value.trim() === current.text) {
+    isProcessing = true;
+
     score++;
     scoreEl.textContent = score;
 
-    input.value = "";
-    input.style.borderColor = "#ccc";
+    setTimeout(() => {
+      input.value = "";
+      input.style.borderColor = "#ccc";
 
-    setProverb();
-    time += 3;
+      setProverb();
+      time += 3;
+
+      isProcessing = false;
+    }, 50); // 아주 짧게 딜레이
   }
 });
-
 // 타이머
 setInterval(() => {
   time--;
