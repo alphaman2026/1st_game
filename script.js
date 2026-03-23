@@ -76,11 +76,21 @@ function getMessage(score) {
 
 
 
-// 입력 체크
-let isProcessing = false;
+let isComposing = false;
 
-input.addEventListener("keyup", () => {
-  if (isProcessing) return;
+// 한글 입력 시작
+input.addEventListener("compositionstart", () => {
+  isComposing = true;
+});
+
+// 한글 입력 완료
+input.addEventListener("compositionend", () => {
+  isComposing = false;
+});
+
+// 입력 이벤트
+input.addEventListener("input", () => {
+  if (isComposing) return; // 👉 핵심: 조합 중이면 무시
 
   if (current.text.startsWith(input.value)) {
     input.style.borderColor = "lime";
@@ -89,20 +99,16 @@ input.addEventListener("keyup", () => {
   }
 
   if (input.value.trim() === current.text) {
-    isProcessing = true;
-
     score++;
     scoreEl.textContent = score;
 
-    setTimeout(() => {
-      input.value = "";
-      input.style.borderColor = "#ccc";
+    // 👉 순서 중요
+    input.value = "";
+    input.blur();   // 조합 상태 완전 종료
+    input.focus();  // 다시 입력 가능
 
-      setProverb();
-      time += 3;
-
-      isProcessing = false;
-    }, 50); // 아주 짧게 딜레이
+    setProverb();
+    time += 3;
   }
 });
 // 타이머
