@@ -78,39 +78,42 @@ function getMessage(score) {
 
 let isComposing = false;
 
-// 한글 입력 시작
 input.addEventListener("compositionstart", () => {
   isComposing = true;
 });
 
-// 한글 입력 완료
 input.addEventListener("compositionend", () => {
   isComposing = false;
+
+  checkAnswer(); // 👉 입력 끝난 순간 체크
 });
 
-// 입력 이벤트
 input.addEventListener("input", () => {
-  if (isComposing) return; // 👉 핵심: 조합 중이면 무시
+  if (isComposing) return;
 
+  // 실시간 색상 피드백만
   if (current.text.startsWith(input.value)) {
     input.style.borderColor = "lime";
   } else {
     input.style.borderColor = "red";
   }
+});
 
+// 👉 정답 체크 함수 따로 분리
+function checkAnswer() {
   if (input.value.trim() === current.text) {
     score++;
     scoreEl.textContent = score;
 
-    // 👉 순서 중요
-    input.value = "";
-    input.blur();   // 조합 상태 완전 종료
-    input.focus();  // 다시 입력 가능
+    setTimeout(() => {
+      input.value = "";
+      input.style.borderColor = "#ccc";
 
-    setProverb();
-    time += 3;
+      setProverb();
+      time += 3;
+    }, 30);
   }
-});
+}
 // 타이머
 setInterval(() => {
   time--;
