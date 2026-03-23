@@ -1,65 +1,78 @@
-body {
-  margin: 0;
-  background: linear-gradient(135deg, #1d2671, #c33764);
-  font-family: 'Noto Sans KR', sans-serif;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+const data = [
+  {
+    text: "가는 말이 고와야 오는 말이 곱다",
+    meaning: "내가 남에게 잘해야 남도 나에게 잘한다"
+  },
+  {
+    text: "백문이 불여일견",
+    meaning: "백 번 듣는 것보다 한 번 보는 것이 낫다"
+  },
+  {
+    text: "고생 끝에 낙이 온다",
+    meaning: "어려움을 이겨내면 좋은 일이 온다"
+  },
+  {
+    text: "티끌 모아 태산",
+    meaning: "작은 것도 모이면 큰 것이 된다"
+  },
+  {
+    text: "등잔 밑이 어둡다",
+    meaning: "가까운 곳의 일을 잘 모른다"
+  }
+];
+
+let current = {};
+let score = 0;
+let time = 15;
+
+const proverbEl = document.getElementById("proverb");
+const meaningEl = document.getElementById("meaning");
+const input = document.getElementById("input");
+const scoreEl = document.getElementById("score");
+const timeEl = document.getElementById("time");
+
+// 랜덤 선택
+function getRandom() {
+  return data[Math.floor(Math.random() * data.length)];
 }
 
-/* 전체 박스 */
-.game-box {
-  text-align: center;
-  background: rgba(0,0,0,0.3);
-  padding: 30px;
-  border-radius: 20px;
-  width: 400px;
+// 문제 세팅
+function setProverb() {
+  current = getRandom();
+  proverbEl.textContent = current.text;
+  meaningEl.textContent = current.meaning;
 }
 
-/* 제목 */
-h1 {
-  font-family: 'Black Han Sans', sans-serif;
-  margin-bottom: 20px;
-}
+// 입력 체크
+input.addEventListener("input", () => {
+  if (current.text.startsWith(input.value)) {
+    input.style.borderColor = "lime";
+  } else {
+    input.style.borderColor = "red";
+  }
 
-/* 카드 */
-.card {
-  background: white;
-  color: black;
-  padding: 20px;
-  border-radius: 15px;
-  margin-bottom: 20px;
-}
+  if (input.value.trim() === current.text) {
+    score++;
+    scoreEl.textContent = score;
 
-/* 속담 */
-#proverb {
-  font-size: 22px;
-  font-weight: bold;
-}
+    input.value = "";
+    input.style.borderColor = "#ccc";
 
-/* 뜻 */
-.meaning {
-  margin-top: 10px;
-  font-size: 14px;
-  color: gray;
-}
+    setProverb();
+    time += 3;
+  }
+});
 
-/* 입력창 */
-input {
-  width: 100%;
-  padding: 12px;
-  font-size: 18px;
-  border-radius: 10px;
-  border: 2px solid #ccc;
-  outline: none;
-  transition: 0.2s;
-}
+// 타이머
+setInterval(() => {
+  time--;
+  timeEl.textContent = time;
 
-/* 점수/시간 */
-.info {
-  margin-top: 15px;
-  display: flex;
-  justify-content: space-between;
-}
+  if (time <= 0) {
+    alert(`게임 종료! 점수: ${score}`);
+    location.reload();
+  }
+}, 1000);
+
+// 시작
+setProverb();
