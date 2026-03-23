@@ -31,6 +31,27 @@ const input = document.getElementById("input");
 const scoreEl = document.getElementById("score");
 const timeEl = document.getElementById("time");
 
+let shuffled = [];
+
+// 배열 섞기 (피셔-예이츠 셔플)
+function shuffleArray(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+// 문제 가져오기
+function getNextProverb() {
+  // 처음이거나 다 썼으면 새로 섞기
+  if (shuffled.length === 0) {
+    shuffled = shuffleArray([...data]);
+  }
+
+  return shuffled.pop(); // 하나씩 꺼내기 (중복 없음)
+}
+
 // 랜덤 선택
 function getRandom() {
   return data[Math.floor(Math.random() * data.length)];
@@ -38,7 +59,7 @@ function getRandom() {
 
 // 문제 세팅
 function setProverb() {
-  current = getRandom();
+  current = getNextProverb();
   proverbEl.textContent = current.text;
   meaningEl.textContent = current.meaning;
 }
