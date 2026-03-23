@@ -1,3 +1,23 @@
+
+input.addEventListener("input", () => {
+  if (current.startsWith(input.value)) {
+    input.style.borderColor = "green";
+  } else {
+    input.style.borderColor = "red";
+  }
+
+  if (input.value.trim() === current) {
+    score++;
+    scoreEl.textContent = score;
+
+    input.value = "";
+    input.style.borderColor = "black";
+
+    setProverb();
+    time += 3;
+  }
+});
+
 const proverbs = [
   "가는 말이 고와야 오는 말이 곱다",
   "백문이 불여일견",
