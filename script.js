@@ -67,10 +67,12 @@ function setProverb() {
 function saveScore(newScore) {
   let scores = JSON.parse(localStorage.getItem("scores")) || [];
 
-  scores.push(newScore);
-  scores.sort((a, b) => b - a); // 내림차순
+  const name = prompt("이름을 입력하세요");
 
-  scores = scores.slice(0, 5); // top 5
+  scores.push({ name, score: newScore });
+
+  scores.sort((a, b) => b.score - a.score);
+  scores = scores.slice(0, 5);
 
   localStorage.setItem("scores", JSON.stringify(scores));
 }
@@ -83,7 +85,7 @@ function showRanking() {
 
   scores.forEach((s, i) => {
     const li = document.createElement("li");
-    li.textContent = `${i + 1}등 - ${s}점`;
+    li.textContent = `${i + 1}등 - ${s.name} (${s.score}점)`;
     list.appendChild(li);
   });
 }
